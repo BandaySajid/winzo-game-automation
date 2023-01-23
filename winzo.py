@@ -6,12 +6,15 @@ import threading
 import subprocess
 
 sct = mss.mss()
+
+#coordinates of circles that the script should click on mobile phone. 
 points = [(150, 139, 471, 276), (115, 238, 355, 583), (127, 336, 393, 894), (336, 139, 1045, 273), (249, 212, 776, 502), (261, 317, 811, 825), (469, 161, 1459, 335), (396, 253, 1229, 634), (496, 323, 1544, 853), (619, 123, 1930, 213), (578, 225, 1796, 546), (621, 340, 1930, 904)]
 # points = [(471, 276), (355, 583), (393, 894), (1045, 273), (776, 502), (811, 825), (1459, 335), (1229, 634), (1544, 853), (1930, 213), (1796, 546), (1930, 904)]
 
 img = []
 
 def checkColor(index):
+    #analyzing if the circle that we want to click is present
     while True:
         if(len(img) != 0):
             point = points[index]
@@ -25,8 +28,10 @@ def checkColor(index):
                 
 
 for i, point in enumerate(points):
+    #creating threads for each (x,y) coordinate.
     t = threading.Thread(target=checkColor, args=(i,))
     t.start()
 
 while True:
+    #taking screenshot and converting to numpy array
     img = np.array(sct.grab(sct.monitors[0]))
